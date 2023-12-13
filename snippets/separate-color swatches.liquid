@@ -1,0 +1,49 @@
+{% assign islimitededition =  false  %}
+<div class="bundle_grid_wrap_new">
+  {% assign collectionHandle = collectionName | handleize %}
+  <div class="hide">{{ collectionHandle }}--{{ collectionName }}</div>
+  {% for newproduct in collections[collectionHandle].products %}
+    {% if newproduct.metafields.custom.show_limited_edition.value %}
+      {% assign islimitededition = true %}
+    {% endif %}
+    {% unless newproduct.metafields.custom.show_limited_edition.value %}
+      <div class="hide" data-handle="{{ newproduct.handle }}"></div>
+      {% assign colorCount = newproduct.metafields.custom.product_gradient_color.value | size %}
+      {% assign colorFirst = newproduct.metafields.custom.product_gradient_color.value[0] %}
+      {% assign colorSecond = newproduct.metafields.custom.product_gradient_color.value[1] %}
+      <a data-stock-status={% if newproduct.available %}"in-stock"{% else %}"out_of_stock"{% endif %} class="bundle_product_grid {{ newproduct.handle }}  {% if product.handle == newproduct.handle %}selected{% endif %}"  href="/products/{{ newproduct.handle }}">
+      <div class="color-swatch-wrap-new {% if Activeslug == product.handle %}colorclickborder{% endif %}">
+<!--       <span class="style1" style= {% if colorCount > 1 %}"background-image: linear-gradient(to right, {{ colorFirst }} 50%, {{ colorSecond }} 50%)"{% else %}"background-color: {{ newproduct.metafields.custom.single_variant_color }}"{% endif %}> -->
+<span class="style1" {% if newproduct.metafields.custom.product_gradient_position.value %}style="{% if colorCount > 1 %}background-image: linear-gradient(to bottom, {{ colorFirst }} 45%, {{ colorSecond }});{% else %}background-color: {{ newproduct.metafields.custom.single_variant_color }}{% endif %}"
+  {% else %}style="{% if colorCount > 1 %}background-image: linear-gradient(to right, {{ colorFirst }} 50%, {{ colorSecond }} 50%){% else %}background-color: {{ newproduct.metafields.custom.single_variant_color }}{% endif %}"
+  {% endif %}
+      </span>
+      </div>
+      </a>
+    {% endunless %}
+  {% endfor %}
+  {% if islimitededition %}
+    <div class="bundle_grid_limited">
+      <span class="limited_editiontext">Limited edition</span>
+
+      {% for newproduct in collections[collectionHandle].products %}
+        {% if newproduct.metafields.custom.show_limited_edition.value %}
+          <div class="hide" data-handle="{{ newproduct.handle }}"></div>
+          {% assign colorCount = newproduct.metafields.custom.product_gradient_color.value | size %}
+          {% assign colorFirst = newproduct.metafields.custom.product_gradient_color.value[0] %}
+          {% assign colorSecond = newproduct.metafields.custom.product_gradient_color.value[1] %}
+          <a data-stock-status={% if newproduct.available %}"in-stock"{% else %}"out_of_stock"{% endif %} class="bundle_product_grid {{ newproduct.handle }}  {% if product.handle == newproduct.handle %}selected{% endif %}"  href="/products/{{ newproduct.handle }}">
+          <div class="color-swatch-wrap-new {% if Activeslug == product.handle %}colorclickborder{% endif %}">
+          <span class="style1" {% if newproduct.metafields.custom.product_gradient_position.value %}style="{% if colorCount > 1 %}background-image: linear-gradient(to bottom, {{ colorFirst }} 45%, {{ colorSecond }});{% else %}background-color: {{ newproduct.metafields.custom.single_variant_color }}{% endif %}"
+          {% else %}style="{% if colorCount > 1 %}background-image: linear-gradient(to right, {{ colorFirst }} 50%, {{ colorSecond }} 50%){% else %}background-color: {{ newproduct.metafields.custom.single_variant_color }}{% endif %}"
+            {% endif %}
+          </span>
+          </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+
+      
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,784 @@
+<style>
+.nav-slider li.slick-slide {
+    display: block;
+}
+  .bodyflowfixed{
+    overflow:hidden;
+  }
+</style>
+<div class="nav_header_tint"></div>
+<header class="header_Nav">
+<div class="desktop-top-header-bar-nav">
+   <div class="page-width">
+     <div class="top-bar-navm">
+      <div class="top-bar-first-sect">
+       <ul>
+        <li class="nav-mobile__item">
+           <span class="ship-to-button ship-to-button--mobile p1 bg-grey-1 js-store-info">
+         <span class="ship-to-button__flag bg-black flag-icon flag-icon-au flag-icon-background js-store-info-flag" style="background-image:url(https://cdn.shopify.com/s/files/1/0532/9652/9590/t/203/assets/au.svg?v=1644314664);"></span>
+           <span class="ship-to-button__text js-store-info-text" data-half-text="Ship to">Ship to: Australia & New Zealand</span> </span> 
+        </li>
+       </ul>
+     </div>
+     <div class="top-bar-middle-box-nav">
+       <div class="top_bar_slider">
+         <div class="top_bar_slide">
+           <a href="{{ section.settings.announcement-collection }}">
+           <p class="promo-bar__content p1"> {{section.settings.promo}}</p>
+           </a>
+         </div>
+
+        <div class="top_bar_slide">
+           <a href="{{ section.settings.announcement-collection2 }}">
+           <p class="promo-bar__content p1"> {{section.settings.promo2}}</p>       
+         </a>
+       </div>
+       </div>       
+     </div>
+   <div class="nav-action-icons-nav">
+    </div> 
+   </div> 
+  </div>
+</div>
+<div class="desktop-navigation-wrapper">
+   <div class="page-width">
+      <nav id="navigation1" class="navigation">
+        <div class="nav-menus-wrapper">
+          <div class="nav-header">
+           <a class="nav-brand" href="/"> 
+             <img src="{{section.settings.logo}}" alt="{{shop.name}}" style="width:{{section.settings.logo_width}}%"></a>
+            <div class="nav-toggle"></div>
+           </div>
+          <ul class="nav-menu align-to-right">
+           {% for link in linklists[section.settings.menu].links %}
+            {% if link.links == blank %} 
+             <li> <a href="{{link.url}}" class="hover_se open_wvt"> {{link.title}} </a> </li>
+            {% else %}
+            <li class="menu_lst">
+              <a href="{% if link.url %}{{ link.url }}{% else %}javascript:void(0){% endif %}" data-index="parent_{{ forloop.index }}" class="hover_se open_wvt" {% for block in section.blocks %} {% if block.settings.title == link.title %} data-url="{{ block.settings.url1 }}" data-url2="{{ block.settings.url2 }}" data-url3="{{ block.settings.url3 }}" data-fortxt="{{ block.settings.text1 }}" data-fortxt2="{{ block.settings.text2 }}" data-fortxt3="{{ block.settings.text3 }}" data-image="{% if block.settings.image %}{{block.settings.image | img_url : 'master'}}{% endif %}" data-image2="{% if block.settings.image2 %}{{block.settings.image2 | img_url : 'master'}}{% endif %}" data-image3="{% if block.settings.image3 %}{{block.settings.image3 | img_url : 'master'}}{% endif %}" data-parent="{% if link.title contains '&'%}{{link.title | remove:" & "}}{% else %}{{link.title | remove:" "}}{% endif %}" {% endif %}{% endfor %} >
+               {{link.title}}
+              </a>
+              <div class="megamenu-panel">
+                <div class="megamenu-lists page-width">
+                  <div class="megamenu-list list-col-4-1">
+                    <ul>
+                     {% assign is_the_card_phone_case = false %}
+                     {% for child_link in link.links -%}  
+                    <li>
+                       {% if child_link.title contains '[new]' %}
+                       {% assign child_nav_link = child_link.title | remove:"[new]" | strip %}
+                       {% elsif child_link.title contains '[sale]' %}
+                       {% assign child_nav_link = child_link.title | remove:"[sale]" | strip %}
+                        {% else %}
+                        {% assign child_nav_link = child_link.title | strip %}
+                         {% endif %}
+                            <a href="{{ child_link.url }}" 
+                             data-index="child_{{ forloop.index }}"
+                             class="" data-child-a="{{ child_nav_link | remove:"[new]"| remove:"[sale]" | strip}}"
+                            {%- for block in section.blocks %} {% if block.settings.title  == child_nav_link %} data-image="{{block.settings.image | img_url : 'master'}}" {% endif %} data-parent="{% if link.title contains '&'%}{{link.title | remove:" & "}}{% else %}{{link.title | remove:" "}}{% endif %}"{% endfor %}>
+                            <span class="child_hover">{{ child_link.title | remove:"[new]"| remove:"[sale]"}} </span> 
+                            {% if child_link.title contains '[new]' %}  <span class="headr-bdg">{{'general.default.new' | t}} </span>
+                            {% elsif child_link.title contains '[sale]' %}<span class="headr-bdg">{{'general.default.sale' | t}}</span> {% endif %}
+                            {% for block in section.blocks %}
+                            {% if block.settings.title == child_link.title %}
+                              {% if block.settings.badge != blank %}
+                            <span class="headr-bdg" style="color:{{ block.settings.badge_color }};background-color:{{ block.settings.badge_bgcolor }};">{{block.settings.badge}}</span>
+                                {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                            </a>
+                       </li>
+                    {% endfor %}
+                    </ul>
+                  </div>
+       
+                  <div class="megamenu-list list-col-4-3 {{ link.handle }} {{ link.title }} {{ child_link.title }}">
+                      {% if block.settings.title == link.title %}
+                        {% if link.title contains '&'%}
+                          {% assign link_title = link.title | remove:" & " %}
+                          {% else %}
+                          {% assign link_title = link.title | remove:" " %}
+                          {% endif %}
+                          <div class="megamenun-image-box hasimage">
+                            <span class="newiamge1 text-right set_{% if link.title contains '&' %}{{link.title  | remove:" & "}}{% else %}{{ link.title | remove:" " }}{% endif %}" data-stytye style="background-image:url({{block.settings.image | img_url : 'master'}});" data-link="{{child_link.title  | remove:" " }}" data-block="{{block.settings.title  | remove:" "}}" id="{{child_link.title  | remove:" "}}"></span>
+                          </div>
+                          {% else %}
+                        
+                            <div class="megamenun-image-box">
+                              <div class="megamenun_image_item">
+                                <a href="javascript:void(0)">
+                                <span class="text-right set_{% if link.title contains '&' %}{{link.title  | remove:" & "}}{% else %}{{ link.title | remove:" " }}{% endif %}" data-link="{{child_link.title  | remove:" " }}" data-block="{{block.settings.title  | remove:" "}}" id="{{child_link.title  | remove:" "}}"></span>
+                                <h5></h5>
+                                </a>
+                              </div>
+                              <div class="megamenun_image_item">
+                                <a href="javascript:void(0)">
+                                <span class="text-right set2_{% if link.title contains '&' %}{{link.title  | remove:" & "}}{% else %}{{ link.title | remove:" " }}{% endif %}" data-stytye style="background-image:url({{block.settings.image2 | img_url : 'master'}});" data-link="{{child_link.title  | remove:" " }}" data-block="{{block.settings.title  | remove:" "}}" id="{{child_link.title  | remove:" "}}"></span>
+                                 <h5></h5>
+                                </a>
+                              </div>
+                              <div class="megamenun_image_item">
+                                <a href="javascript:void(0)">
+                                <span class="text-right set3_{% if link.title contains '&' %}{{link.title  | remove:" & "}}{% else %}{{ link.title | remove:" " }}{% endif %}" data-stytye style="background-image:url({{block.settings.image2 | img_url : 'master'}});" data-link="{{child_link.title  | remove:" " }}" data-block="{{block.settings.title  | remove:" "}}" id="{{child_link.title  | remove:" "}}"></span>
+                                <h5></h5>
+                                </a>
+                              </div>
+                        </div>                        
+                          {% endif %}
+                  </div>
+                </div>
+                  <a href="javascript:;" class="close_wvt hide"> <img src="https://cdn.shopify.com/s/files/1/0532/9652/9590/t/203/assets/cross-icon.png?v=1644999373" alt="" id="crossmenuicnav"> </a>
+              </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="nav-search-formm">
+        <ul class="nav-action-icons__items">
+          <li class="search-icon-nav-m">
+            <button type="button" class="btn-search">
+              <svg width="16" height="17" viewBox="0 0 16 17" fill="none">
+              <path d="M15.8426 16.0011L14.0754 14.1181L11.2443 11.1014L10.9261 10.7623C11.6151 9.87967 12.0927 8.80999 12.2603 7.6573C12.3087 7.32315 12.3402 6.98516 12.3442 6.64716C12.3468 6.62334 12.3488 6.59917 12.3488 6.57431C12.3376 3.81674 10.6957 1.34114 8.26954 0.388094C5.88019 -0.553393 3.05301 0.262352 1.43677 2.36108C0.615665 3.42411 0.126225 4.70709 0.0193963 6.0801C-0.0838168 7.42963 0.22911 8.81839 0.888161 9.97529C1.52157 11.0856 2.4712 12.0075 3.58288 12.5448C4.79415 13.1293 6.13033 13.294 7.43365 13.0155C8.44178 12.7987 9.37431 12.2968 10.1487 11.597C10.6267 12.1062 11.1049 12.6159 11.5829 13.1251C12.5253 14.1293 13.4716 15.1377 14.414 16.1419C14.6313 16.3734 14.8446 16.6011 15.0619 16.8322C15.2792 17.0634 15.6325 17.0557 15.8422 16.8322C16.0519 16.6088 16.0519 16.2242 15.8422 16.0007L15.8426 16.0011ZM1.51401 4.4437C1.51631 4.43845 1.51829 4.43354 1.52059 4.42829C1.5127 4.44685 1.49265 4.49694 1.51401 4.4437ZM1.15803 7.28532C1.16164 7.31475 1.16624 7.37149 1.15803 7.28532V7.28532ZM9.39239 10.7518C9.36643 10.7753 9.34079 10.7949 9.31876 10.8184C9.31285 10.8236 9.30857 10.8278 9.30463 10.8313C9.30266 10.8331 9.30003 10.8352 9.29674 10.838C9.08308 11.0106 8.86252 11.1637 8.62684 11.3007C8.50522 11.3714 8.38393 11.438 8.25869 11.5006C8.23338 11.5143 8.20774 11.5252 8.1821 11.5381C8.17816 11.5395 8.17356 11.5413 8.16633 11.5441C8.09631 11.5753 8.03024 11.6029 7.96023 11.6302C7.69529 11.7322 7.42641 11.8148 7.1503 11.8737C7.0839 11.8894 7.01783 11.9013 6.95144 11.9129C6.93467 11.915 6.91824 11.9178 6.90147 11.921C6.90509 11.9203 6.86302 11.9262 6.84822 11.9287C6.69735 11.9483 6.54253 11.9598 6.38804 11.9679C6.09713 11.9798 5.80623 11.964 5.51566 11.9287C5.50087 11.9259 5.45813 11.9199 5.46241 11.921C5.44564 11.9182 5.42921 11.915 5.41244 11.9129C5.34605 11.901 5.27998 11.8894 5.21358 11.8737C5.06632 11.8425 4.92268 11.8029 4.77903 11.7598C4.6538 11.7206 4.52856 11.6775 4.40332 11.6302C4.34087 11.6068 4.2817 11.5791 4.21925 11.5556C4.20084 11.5479 4.1236 11.5087 4.21563 11.5556C4.17882 11.5399 4.142 11.5203 4.10519 11.5006C3.85472 11.3791 3.61542 11.2338 3.38368 11.073C3.27948 11.0001 3.17561 10.9238 3.0747 10.8401C3.07174 10.8373 3.06813 10.8341 3.0632 10.8299C3.03723 10.8064 3.01159 10.7868 2.98957 10.7634C2.92711 10.7084 2.86795 10.6534 2.80549 10.5945C2.61024 10.4061 2.42255 10.2023 2.25327 9.98264C2.24472 9.97143 2.20298 9.91574 2.18161 9.88737C2.1448 9.83694 2.11061 9.78615 2.07676 9.73571C1.99228 9.60997 1.91109 9.48073 1.83746 9.34728C1.77106 9.22959 1.70861 9.10805 1.64977 8.98652C1.62051 8.92382 1.59093 8.86077 1.56529 8.79808C1.5505 8.76691 1.53932 8.73538 1.52486 8.70386C1.51829 8.6895 1.51336 8.67864 1.50941 8.67094C1.50744 8.66568 1.50514 8.65973 1.50284 8.65272C1.39962 8.37427 1.31153 8.09161 1.24875 7.8016C1.21949 7.6643 1.18991 7.52315 1.1715 7.382C1.16822 7.34942 1.16197 7.31685 1.15803 7.28427C1.1577 7.28042 1.15737 7.27657 1.15671 7.27202C1.14554 7.182 1.13831 7.09163 1.13074 7.00127C1.10872 6.69935 1.11234 6.39708 1.13436 6.09516C1.14159 6.01285 1.14915 5.93439 1.15638 5.85173C1.15901 5.83597 1.1646 5.79043 1.16362 5.79499C1.16624 5.77712 1.1692 5.75961 1.17118 5.74175C1.1932 5.59254 1.22278 5.44368 1.25565 5.29833C1.32205 5.00796 1.41014 4.72566 1.51336 4.4472C1.52355 4.42094 1.5242 4.41813 1.52157 4.42409C1.53242 4.39922 1.54228 4.374 1.55379 4.34913C1.57975 4.28644 1.60901 4.22339 1.63826 4.1607C1.70072 4.0311 1.76712 3.90186 1.83713 3.77612C1.90714 3.65037 1.98439 3.52919 2.06163 3.4073C2.09681 3.35511 2.13198 3.30257 2.17044 3.25038C2.17274 3.24723 2.1757 3.24373 2.17964 3.23882C2.20561 3.20765 2.23125 3.17227 2.25689 3.14075C2.43373 2.91729 2.62142 2.70924 2.82752 2.51309C2.87551 2.46616 2.92317 2.42308 2.97477 2.37965C2.98529 2.37089 3.0369 2.32641 3.06385 2.30364C3.17463 2.21292 3.29165 2.12606 3.40899 2.0462C3.64073 1.88544 3.88035 1.74428 4.13411 1.62239C4.15811 1.60943 4.18243 1.59893 4.20676 1.58702C4.21235 1.58492 4.21859 1.58247 4.22648 1.57931C4.28893 1.55164 4.3481 1.52818 4.41055 1.50471C4.54302 1.45357 4.67549 1.40664 4.80829 1.36741C4.94437 1.32818 5.08078 1.2928 5.22048 1.26163C5.28688 1.24587 5.35295 1.23396 5.41935 1.2224C5.43973 1.21995 5.46044 1.2161 5.48081 1.2126C5.48443 1.2126 5.52059 1.20769 5.5482 1.20279C5.8391 1.16741 6.13001 1.15585 6.42058 1.16741C6.55666 1.17512 6.69308 1.18317 6.82916 1.20279C6.84395 1.20279 6.95078 1.21855 6.88077 1.21049C6.81075 1.19859 6.91758 1.2182 6.93237 1.2182C7.006 1.23011 7.07963 1.24587 7.15326 1.26128C7.42937 1.32012 7.70187 1.40243 7.96319 1.50471C8.02564 1.52818 8.08481 1.55585 8.14726 1.57931C8.15548 1.58282 8.16205 1.58562 8.16797 1.58842C8.16107 1.58527 8.15482 1.58176 8.15088 1.57931C8.1614 1.58492 8.17192 1.58982 8.18276 1.59472C8.19985 1.60243 8.1992 1.60243 8.19131 1.59893C8.20741 1.60628 8.22319 1.61399 8.2393 1.62239C8.37177 1.68509 8.50423 1.75584 8.62947 1.8343C8.86548 1.9737 9.09426 2.13237 9.3089 2.30574C9.33651 2.32921 9.38516 2.37089 9.39502 2.3793C9.44301 2.42238 9.49429 2.46931 9.54228 2.51274C9.64911 2.61467 9.75594 2.72465 9.85521 2.83428C9.94363 2.93235 10.0284 3.03427 10.1129 3.14005C10.1244 3.15441 10.1596 3.20135 10.1806 3.22972C10.227 3.29416 10.273 3.36246 10.319 3.43041C10.4735 3.66193 10.6099 3.90886 10.7312 4.16C10.7605 4.22269 10.79 4.28574 10.8157 4.34843C10.8285 4.3754 10.8387 4.40272 10.8509 4.43004C10.8522 4.43425 10.8538 4.43915 10.8564 4.4465C10.9117 4.59151 10.9633 4.74072 11.0073 4.88993C11.0918 5.16838 11.1546 5.45489 11.1986 5.74105C11.2022 5.77432 11.2088 5.8076 11.2124 5.84087C11.2141 5.85523 11.216 5.86994 11.217 5.878C11.2243 5.94875 11.2318 6.023 11.2354 6.09376C11.2354 6.26223 11.243 6.41809 11.243 6.5701C11.243 6.57115 11.243 6.5722 11.243 6.57361C11.243 6.71896 11.2394 6.86782 11.2282 7.01283C11.2246 7.08358 11.217 7.15783 11.2098 7.22858C11.2098 7.22508 11.1917 7.36904 11.1993 7.32911C11.1953 7.35573 11.1914 7.38655 11.1914 7.39355C11.1473 7.69162 11.0773 7.98198 10.9925 8.26849C10.9521 8.40194 10.9041 8.53118 10.8564 8.66078C10.8532 8.66953 10.8505 8.67654 10.8479 8.68284C10.8509 8.67549 10.8541 8.66883 10.8564 8.66463C10.8512 8.67584 10.8466 8.68705 10.842 8.69861C10.8347 8.71682 10.8347 8.71612 10.838 8.70771C10.8311 8.72487 10.8242 8.74169 10.816 8.75885C10.7828 8.83731 10.746 8.91576 10.7092 8.99422C10.5839 9.25306 10.4403 9.50419 10.2822 9.74342C10.2483 9.7935 10.2145 9.84394 10.178 9.89403C10.1566 9.92205 10.1139 9.97914 10.1054 9.99035C10.0169 10.1003 9.92489 10.21 9.83286 10.3161C9.7372 10.4219 9.63761 10.5199 9.53834 10.618C9.49035 10.6649 9.44269 10.708 9.39108 10.7515L9.39239 10.7518Z" fill="black"/>
+              </svg>
+              <span class="sr-only"> {{'general.default.search' | t}} 
+              </span> 
+            </button>
+            <div class="modal-search">
+              <div class="modal-search-02 fordesktoponly">
+                 {% if settings.ss_enable %}
+                   <form action="{{ routes.collections_url }}/{{ settings.ss_collection_handle }}" method="get" class="search search-form-navv">
+                    <input type="text" for="search" name="q" class="form-control search_input ss__autocomplete__input" autocomplete="off" placeholder="Search "Phone Case"">
+                    <button type="submit" class="btn-search">           
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="#34486f" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8153 14.9238L11.1864 10.2946C13.2156 7.8183 13.0744 4.15806 10.7626 1.84641C8.30072 -0.615504 4.30869 -0.615504 1.84676 1.84661C-0.615522 4.30855 -0.615521 8.30065 1.84637 10.7626C4.15821 13.0743 7.81847 13.2154 10.2948 11.1862L14.9238 15.8153C15.1701 16.0616 15.569 16.0616 15.8153 15.8153C16.0616 15.569 16.0616 15.1701 15.8153 14.9238ZM2.73787 9.87087C0.76852 7.90128 0.76852 4.70792 2.73787 2.73793C4.70805 0.768555 7.90136 0.768555 9.87071 2.73793C11.8409 4.70792 11.8409 7.90128 9.87112 9.87107C7.90136 11.8408 4.70803 11.8406 2.73787 9.87087Z" fill="#34486f"></path>
+                      </svg> 
+                      <span class="sr-only"> {{'general.default.search' | t}} </span> 
+                    </button>
+                  </form>
+                {% else %}
+                 <form action="/search" class="search search-form-navv">
+                    <input type="text" for="search" name="q" class="form-control search_input" autocomplete="off" placeholder="Search "Phone Case"">
+                    <button type="submit" class="btn-search">           
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="#34486f" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8153 14.9238L11.1864 10.2946C13.2156 7.8183 13.0744 4.15806 10.7626 1.84641C8.30072 -0.615504 4.30869 -0.615504 1.84676 1.84661C-0.615522 4.30855 -0.615521 8.30065 1.84637 10.7626C4.15821 13.0743 7.81847 13.2154 10.2948 11.1862L14.9238 15.8153C15.1701 16.0616 15.569 16.0616 15.8153 15.8153C16.0616 15.569 16.0616 15.1701 15.8153 14.9238ZM2.73787 9.87087C0.76852 7.90128 0.76852 4.70792 2.73787 2.73793C4.70805 0.768555 7.90136 0.768555 9.87071 2.73793C11.8409 4.70792 11.8409 7.90128 9.87112 9.87107C7.90136 11.8408 4.70803 11.8406 2.73787 9.87087Z" fill="#34486f"></path>
+                      </svg> 
+                      <span class="sr-only"> {{'general.default.search' | t}} </span> 
+                    </button>
+                    {% include 'all-products-search' %}
+                  </form>
+                {% endif %}
+               <button type="button" class="close-search-modal">
+                <img src="{{ 'x.png' | asset_url }}" alt="">
+              </button>
+              </div> 
+            </div>
+          </li>
+          <li class="nav-action-icons__item nav-action-icons__item--account">
+            <a href="{{shop.url}}/account">
+              <span class="nav-action-icons__item__icon">
+           <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 16.4479C16 16.7529 15.7441 17 15.4285 17C15.1128 17 14.8569 16.7529 14.8569 16.4479C14.8569 14.0818 13.55 11.895 11.4285 10.7117C9.30694 9.52879 6.69306 9.52879 4.57153 10.7117C2.45 11.895 1.14305 14.0814 1.14305 16.4479C1.14305 16.7529 0.887199 17 0.571527 17C0.255856 17 0 16.7529 0 16.4479C0 13.687 1.52476 11.1362 4 9.75589C6.47524 8.3756 9.52477 8.3756 12 9.75589C14.4752 11.1362 16 13.6874 16 16.4479ZM3.88556 3.97389C3.88556 2.91989 4.31913 1.90896 5.0905 1.16388C5.86222 0.418796 6.90881 0 8 0C9.09119 0 10.1378 0.418796 10.9092 1.16388C11.6809 1.90896 12.1141 2.91989 12.1141 3.97389C12.1141 5.0279 11.6805 6.03882 10.9092 6.7839C10.1378 7.52932 9.09119 7.94778 8 7.94778C6.90881 7.94778 5.86222 7.52899 5.09085 6.7839C4.31913 6.03882 3.8859 5.0279 3.8859 3.97389H3.88556ZM5.02826 3.97389C5.02826 4.73501 5.34117 5.46506 5.89852 6.00342C6.45553 6.54178 7.21134 6.84402 7.99965 6.84402C8.78797 6.84402 9.54344 6.54178 10.1008 6.00342C10.6581 5.46539 10.971 4.73534 10.971 3.97389C10.971 3.21244 10.6581 2.48272 10.1008 1.94436C9.54378 1.40601 8.78797 1.10377 7.99965 1.10377C7.21065 1.10076 6.45311 1.402 5.89506 1.94103C5.33702 2.48005 5.02515 3.21178 5.02826 3.97389Z" fill="black"/>
+</svg>
+              </span>
+              <span></span>
+            </a>
+          </li>
+          <li class="nav-action-icons__item nav-action-icons__item--bag">
+            <a href="javascript:void(0);" id="cartopennav" data-module="header-cart-icon" tabindex="0" class="btn-cart-trigger js-focus-return">
+              <span class="btn-cart-trigger__icon">
+<!--                 <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-cart" viewBox="0 0 408 513.8">
+                  <path d="M204.1,8C130.6,8,70.3,64.6,64.5,136.6h279.3C337.9,64.6,277.6,8,204.1,8z"></path>
+                  <path d="M64.5,136.6H47.2c-22.1,0-40,17.9-40,40v286.6c0,22.1,17.9,40,40,40H361c22.1,0,40-17.9,40-39.9V176.6   c0-22.1-17.9-40-40-40h-17.3"></path>
+                  <path d="M343.7,136.6H64.5"></path>
+                </svg> -->
+                <svg class="icon--bag" version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 14 18.8" style="enable-background:new 0 0 14 18.8;" xml:space="preserve">
+              <g id="Page-1">
+                <g id="_x30_1-Mobile---Homepage" transform="translate(-341.000000, -23.000000)">
+                  <g id="Navigation">
+                    <g id="Shopping-Bag" transform="translate(341.000000, 23.000000)">
+                      <path id="Fill-1" d="M2.3,8.1h9.5l1.2,9.7H1.1L2.3,8.1z M7,1c2.3,0,2.7,5.9,2.7,5.9H4.3C4.3,6.8,4.8,1,7,1L7,1z M12.7,8.1
+                        L12.7,8.1l-0.3-0.6V6.8h-1.7c0,0-0.5-6.8-3.8-6.8S3.2,6.8,3.2,6.8H1.6v0.7L1.3,8.1l0,0L0,18.8h14L12.7,8.1z" fill="#ffffff"></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+              </span> 
+               <span aria-hidden="true" class="btn-cart-trigger__count p1 cart-item-count">{{ cart.item_count }}</span>
+            </a>
+            <!-- Code for New Mini Cart Icon Start -->
+            {% comment %}
+            <a href="{{ routes.cart_url }}" aria-label="View Cart" class="site-header__icon site-header__cart">
+              {% include 'icon-cart-new' %}
+              <span class="icon__fallback-text">Cart</span>
+              <div class="site-header__cart-count" data-cart-count-bubble>
+                <span data-cart-count>{{ cart.item_count }}</span>
+                <!-- <span class="icon__fallback-text medium-up--hide">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span> -->
+              </div>
+            </a>
+            {% endcomment %}
+            <!-- Code for New Mini Cart Icon End -->
+           </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+<!-- Desktop Navigation Closed Here By Nav -->
+
+<!-- Mobile Navigation Start Here By Nav -->
+<div class="mobile-navigation-wrapper">
+  <nav>
+    <div class="mobile-nav-menu">
+     <a href="javascript:void(0)" id"openmenunav" class="hamburger js-hamburger js-hamburgernav" title="Open mobile menu" aria-label="Open mobile menu">
+      <div class="ham">
+        <div class="mobile-nav-trigger js-mobile-nav-trigger js-close-search">
+          <div class="mobile-nav-trigger__hamburger formobileham">
+            <span class="mobile-nav-trigger__hamburger-child js-mobile-nav-trigger-child"></span>
+            <span class="mobile-nav-trigger__hamburger-child js-mobile-nav-trigger-child"></span>
+            <span class="mobile-nav-trigger__hamburger-child js-mobile-nav-trigger-child"></span>
+          </div>
+           <div class="mobile-nav-trigger__cross">
+            <span class="mobile-nav-trigger__cross-child js-mobile-nav-trigger-child"></span>
+            <span class="mobile-nav-trigger__cross-child js-mobile-nav-trigger-child"></span>
+          </div>
+        </div>
+       
+      </div>
+      <span class="sr-only">{{'general.default.mobile-menu-text' | t}}</span>
+    </a> 
+      <div class="mobile_menu_mask">&nbsp;</div>
+              <li class="search-icon-nav-m">
+      <button type="submit" class="btn-search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15.8153 14.9238L11.1864 10.2946C13.2156 7.8183 13.0744 4.15806 10.7626 1.84641C8.30072 -0.615504 4.30869 -0.615504 1.84676 1.84661C-0.615522 4.30855 -0.615521 8.30065 1.84637 10.7626C4.15821 13.0743 7.81847 13.2154 10.2948 11.1862L14.9238 15.8153C15.1701 16.0616 15.569 16.0616 15.8153 15.8153C16.0616 15.569 16.0616 15.1701 15.8153 14.9238ZM2.73787 9.87087C0.76852 7.90128 0.76852 4.70792 2.73787 2.73793C4.70805 0.768555 7.90136 0.768555 9.87071 2.73793C11.8409 4.70792 11.8409 7.90128 9.87112 9.87107C7.90136 11.8408 4.70803 11.8406 2.73787 9.87087Z" fill="black"/>
+      </svg>
+        <span class="sr-only"> {{'general.default.search' | t}} </span> 
+      </button>
+      
+      <div class="modal-search">
+        <div class="modal-search-02 fordesktoponly">
+         {% if settings.ss_enable %}
+            <form action="{{ routes.collections_url }}/{{ settings.ss_collection_handle }}" class="search search-form-navv" method="get">
+              <input type="text" for="search" name="q" class="form-control search_input ss__autocomplete__input" autocomplete="off" placeholder="Search "Phone Case"">
+              <button type="submit" class="btn-search">
+               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.8153 14.9238L11.1864 10.2946C13.2156 7.8183 13.0744 4.15806 10.7626 1.84641C8.30072 -0.615504 4.30869 -0.615504 1.84676 1.84661C-0.615522 4.30855 -0.615521 8.30065 1.84637 10.7626C4.15821 13.0743 7.81847 13.2154 10.2948 11.1862L14.9238 15.8153C15.1701 16.0616 15.569 16.0616 15.8153 15.8153C16.0616 15.569 16.0616 15.1701 15.8153 14.9238ZM2.73787 9.87087C0.76852 7.90128 0.76852 4.70792 2.73787 2.73793C4.70805 0.768555 7.90136 0.768555 9.87071 2.73793C11.8409 4.70792 11.8409 7.90128 9.87112 9.87107C7.90136 11.8408 4.70803 11.8406 2.73787 9.87087Z" fill="black"/>
+                </svg>
+                <span class="sr-only"> {{'general.default.search' | t}} </span> 
+              </button>
+              <span class="clear-search"></span>
+            </form>
+                  {% else %}
+            <form action="/search" class="search search-form-navv">
+              <input type="text" for="search" name="q" class="form-control search_input" autocomplete="off" placeholder="Search "Phone Case"">
+              <button type="submit" class="btn-search">
+               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.8153 14.9238L11.1864 10.2946C13.2156 7.8183 13.0744 4.15806 10.7626 1.84641C8.30072 -0.615504 4.30869 -0.615504 1.84676 1.84661C-0.615522 4.30855 -0.615521 8.30065 1.84637 10.7626C4.15821 13.0743 7.81847 13.2154 10.2948 11.1862L14.9238 15.8153C15.1701 16.0616 15.569 16.0616 15.8153 15.8153C16.0616 15.569 16.0616 15.1701 15.8153 14.9238ZM2.73787 9.87087C0.76852 7.90128 0.76852 4.70792 2.73787 2.73793C4.70805 0.768555 7.90136 0.768555 9.87071 2.73793C11.8409 4.70792 11.8409 7.90128 9.87112 9.87107C7.90136 11.8408 4.70803 11.8406 2.73787 9.87087Z" fill="black"/>
+                </svg>
+                <span class="sr-only"> {{'general.default.search' | t}} </span> 
+              </button>
+              {% include 'all-products-search' %}
+              <span class="clear-search"></span>
+            </form>
+          {% endif %}
+         <button type="button" class="close-search-modal forcross_mobile">
+          <img src="{{ 'x.png' | asset_url }}" alt="">
+        </button>
+        </div> 
+      </div>
+    </li>
+      {% comment %}
+    <div class="m-menu navmm">
+      <div class="mobile-nav-trigger_cross">
+            <span class="mobile-nav-trigger_cross-child"></span>
+            <span class="mobile-nav-trigger_cross-child"></span>
+      </div>
+      <div class="open_custom_search">
+       {% if settings.ss_enable %}
+          <form action="{{ routes.collections_url }}/{{ settings.ss_collection_handle }}" class="search search-form-navv" method="get">
+            <input type="text" for="search" name="q" class="form-control search_input ss__autocomplete__input" autocomplete="off" placeholder="Search "Phone Case"">
+            <button type="submit" class="btn-search">           
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#34486f" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.8153 14.9238L11.1864 10.2946C13.2156 7.8183 13.0744 4.15806 10.7626 1.84641C8.30072 -0.615504 4.30869 -0.615504 1.84676 1.84661C-0.615522 4.30855 -0.615521 8.30065 1.84637 10.7626C4.15821 13.0743 7.81847 13.2154 10.2948 11.1862L14.9238 15.8153C15.1701 16.0616 15.569 16.0616 15.8153 15.8153C16.0616 15.569 16.0616 15.1701 15.8153 14.9238ZM2.73787 9.87087C0.76852 7.90128 0.76852 4.70792 2.73787 2.73793C4.70805 0.768555 7.90136 0.768555 9.87071 2.73793C11.8409 4.70792 11.8409 7.90128 9.87112 9.87107C7.90136 11.8408 4.70803 11.8406 2.73787 9.87087Z" fill="#34486f"></path>
+              </svg> 
+              <span class="sr-only"> {{'general.default.search' | t}} </span> 
+            </button>
+          </form>
+        {% else %}
+         <form action="/search" class="search search-form-navv">
+            <input type="text" for="search" name="q" class="form-control search_input" autocomplete="off" placeholder="Search "Phone Case"">
+            <button type="submit" class="btn-search">           
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#34486f" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.8153 14.9238L11.1864 10.2946C13.2156 7.8183 13.0744 4.15806 10.7626 1.84641C8.30072 -0.615504 4.30869 -0.615504 1.84676 1.84661C-0.615522 4.30855 -0.615521 8.30065 1.84637 10.7626C4.15821 13.0743 7.81847 13.2154 10.2948 11.1862L14.9238 15.8153C15.1701 16.0616 15.569 16.0616 15.8153 15.8153C16.0616 15.569 16.0616 15.1701 15.8153 14.9238ZM2.73787 9.87087C0.76852 7.90128 0.76852 4.70792 2.73787 2.73793C4.70805 0.768555 7.90136 0.768555 9.87071 2.73793C11.8409 4.70792 11.8409 7.90128 9.87112 9.87107C7.90136 11.8408 4.70803 11.8406 2.73787 9.87087Z" fill="#34486f"></path>
+              </svg> 
+              <span class="sr-only"> {{'general.default.search' | t}} </span> 
+            </button>
+            {% include 'all-products-search' %}
+          </form>
+        {% endif %}
+      </div>
+      <div class="nav-slider">
+            <li class="gift-image-bb">
+          <a href="{{section.settings.m_url2}}">
+          <img src="{{section.settings.m_img2 | img_url : 'master'}}" alt="{{section.settings.m_img2.alt}}">
+          <h5>{{  section.settings.m_title2 }}</h5>
+          </a> </li>
+      </div>
+      
+     {% comment %} <ul class="mobile_main_nav_list">
+      {% for link in linklists[section.settings.menu].links %}
+       {% if link.links == blank %} 
+       <li class="custom_sales_nav"> <a {% if section.settings.imagesale != blank %} style="background-image:url('{{ section.settings.imagesale | img_url: 'master' }}');" {% endif %} href="{{link.url}}">  {{link.title}} </a> </li>
+       {% else %}
+        <li class="custonM-{{ link.title | handleize  }}" "{% if link.object.handle == 'sale' %}{{ collections[link.object.handle].image | image_url:'master' }}{% endif %}"> 
+          <label {{ link.object.handle }} style="background-image:url({{ collections[link.object.handle].metafields.custom.mobile_nav_image.value | image_url }});" class="a-label__chevron" for="item-{{forloop.index}}"> {{link.title}}</label>
+          <input type="checkbox" id="item-{{forloop.index}}" name="item-{{forloop.index}}" class="m-menu__checkbox">
+          <div class="m-menu">
+            <div class="m-menu__header">
+              <label class="m-menu__toggle" for="item-{{forloop.index}}">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                      width="35" height="35" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+                <g>
+                    <polyline fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="bevel" stroke-miterlimit="10" points="37,15 20,32 
+                        37,49 	"/>
+                </g>
+                </svg>
+              </label>
+              <span>{{link.title}}</span>
+            </div>
+            <ul>
+             {% for child_link in link.links %}
+               {% if child_link.title contains '[new]' %}
+                 {% assign child_mb_link = child_link.title | remove :"[new]" | strip %}
+              {% elsif child_link.title contains '[sale]' %}
+                 {% assign child_mb_link = child_link.title | remove :"[sale]" | strip %}
+              {% else %}
+                 {% assign child_mb_link = child_link.title | strip %}
+                 {% endif %}
+              <li class="customheader_sale"><a href="{{child_link.url}}">{{child_mb_link}}
+               {% if child_link.title contains '[new]' %}  <span class="headr-bdg">{{'general.default.new' | t}} </span>
+               {% elsif child_link.title contains '[sale]' %}<span class="headr-bdg">{{'general.default.sale' | t}}</span>
+               {% endif %}
+               {% for block in section.blocks %}
+                {% if block.settings.title == child_link.title %}
+                  {% if block.settings.badge != blank %}
+                  <span class="headr-bdg spanmobile" style="color:{{ block.settings.badge_color }};background-color:{{ block.settings.badge_bgcolor }};">{{block.settings.badge}}</span>
+                    {% endif %}
+                {% endif %}
+              {% endfor %}
+              </a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+        </ul>
+        <ul class="nav_shipping_list">
+         <li class="nav-mobile__item nav-mobile__item"> <a href="{{shop.url}}/account" class="bg-grey-1 "> {{'general.default.login' | t}}</a> </li>
+         <li class="nav-mobile__item nav_shipping_text">
+           <span class="ship-to-button ship-to-button--mobile p1 bg-grey-1 js-store-info">
+           <span class="ship-to-button__flag bg-black flag-icon flag-icon-au flag-icon-background js-store-info-flag" style="background-image:url(https://cdn.shopify.com/s/files/1/0532/9652/9590/t/203/assets/au.svg?v=1644314664);"></span>
+           <span class="ship-to-button__text js-store-info-text" data-half-text="Ship to">Ship to: Australia & New Zealand</span> </span>  
+        </li>
+        {% for link in linklists[section.settings.menu_utility].links %}
+        <li class="nav-mobile__item"> <a href="{{link.url}}" class="bg-grey-1 "> {{link.title}} </a> </li>
+        {% endfor %}
+      </ul>  
+    </div>
+    {% endcomment %}
+    
+                  {% endcomment %}
+    </div>
+   
+    <div class="mobile-logo-nav">
+      <a class="nav-brand" href="/"> 
+          <svg width="181" height="22" viewBox="0 0 181 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.42437 13.2751L1.68343 4.6583H0V21.7884H1.80368V7.6548L8.42437 16.0311L15.0451 7.6548V21.7644H16.8487V4.62463L15.1605 4.66311L8.42437 13.2751Z" fill="black"/>
+          <path d="M26.7632 4.65833L19.3008 21.7884H21.2488L23.6705 16.2692H31.5393L33.9611 21.7884H35.909L28.4466 4.65833H26.7632ZM24.404 14.4631L27.5712 7.21474L30.7577 14.4631H24.404Z" fill="black"/>
+          <path d="M40.165 4.65833H38.3613V21.7884H40.165V4.65833Z" fill="black"/>
+          <path d="M50.0143 12.3876L48.8791 12.0557C46.6209 11.4232 45.5243 10.4036 45.5243 8.93657C45.5243 8.46281 45.6133 8.05397 45.7912 7.71969C45.9716 7.3806 46.2121 7.09923 46.5103 6.88038C46.8181 6.65432 47.1693 6.48357 47.5564 6.37295C47.9581 6.25751 48.3789 6.19258 48.8046 6.17815C49.3337 6.16372 49.8459 6.22865 50.3317 6.37054C50.7958 6.50762 51.1806 6.71203 51.474 6.97898L51.7746 7.25314L52.9578 5.98095L52.6644 5.69958C52.2147 5.2691 51.6279 4.93722 50.9161 4.71837C50.2259 4.50434 49.5044 4.39612 48.7685 4.39612C48.1432 4.39612 47.5228 4.4851 46.9288 4.65825C46.3251 4.83381 45.7744 5.10797 45.2934 5.47111C44.8028 5.84146 44.4036 6.31763 44.1054 6.89C43.8048 7.46717 43.6509 8.15498 43.6509 8.93176C43.6509 10.1318 44.0862 11.1491 44.9447 11.9571C45.7672 12.7291 46.936 13.3111 48.4198 13.6838L49.377 14.0037C50.4062 14.3668 51.1421 14.7973 51.5678 15.2831C51.9718 15.7472 52.1763 16.4158 52.1763 17.272C52.1763 17.7265 52.0801 18.1281 51.8901 18.4696C51.6953 18.8207 51.4307 19.1213 51.1061 19.3666C50.7718 19.6167 50.3798 19.8163 49.9445 19.9558C49.502 20.1001 49.0379 20.1795 48.5617 20.1915C47.8883 20.2204 47.2198 20.1266 46.58 19.9101C45.962 19.7009 45.4449 19.3666 45.0457 18.9121L44.7403 18.5634L43.5547 19.8813L43.8024 20.1578C44.3748 20.7975 45.1083 21.2785 45.9884 21.5887C46.7652 21.8629 47.5781 22 48.4006 22C48.4871 22 48.5761 21.9976 48.6627 21.9952C49.3192 21.9783 49.9758 21.8653 50.6083 21.6609C51.2504 21.4517 51.8251 21.1462 52.3133 20.7494C52.8039 20.3526 53.208 19.862 53.511 19.2969C53.8212 18.7197 53.9799 18.0367 53.9799 17.2744C53.9799 16.0166 53.6505 14.9825 52.9987 14.2033C52.359 13.4409 51.3562 12.8301 50.0143 12.3876Z" fill="black"/>
+          <path d="M71.1736 7.01753C70.3872 6.22151 69.4493 5.58902 68.3863 5.13449C67.321 4.67997 66.1738 4.4491 64.9762 4.4491C63.7762 4.4491 62.629 4.67997 61.5661 5.13449C60.5055 5.58902 59.5652 6.22151 58.7692 7.01513C57.9755 7.80875 57.3406 8.74665 56.8885 9.8C56.434 10.8558 56.2031 12.0077 56.2031 13.2246C56.2031 14.4391 56.434 15.591 56.8885 16.6492C57.343 17.7025 57.9755 18.638 58.7692 19.4316C59.5652 20.2276 60.5055 20.8601 61.5661 21.3123C62.629 21.7668 63.7762 21.9977 64.9762 21.9977C66.1762 21.9977 67.3234 21.7668 68.3863 21.3123C69.4469 20.8577 70.3848 20.2252 71.1736 19.4292C71.96 18.6356 72.5901 17.7001 73.0519 16.6492C73.516 15.591 73.7493 14.4391 73.7493 13.2222C73.7493 12.0077 73.5136 10.8533 73.0519 9.79519C72.5925 8.74425 71.96 7.81115 71.1736 7.01753ZM71.948 13.2005C71.948 14.1625 71.7628 15.0812 71.3997 15.9253C71.0342 16.7742 70.5339 17.5173 69.9135 18.1378C69.293 18.7583 68.5499 19.2561 67.701 19.624C66.8568 19.9872 65.9406 20.1723 64.9762 20.1723C64.0118 20.1723 63.0956 19.9872 62.2515 19.624C61.4025 19.2585 60.6594 18.7583 60.0389 18.1378C59.4185 17.5173 58.9183 16.7742 58.5527 15.9253C58.1896 15.0812 58.0044 14.1649 58.0044 13.2005C58.0044 12.2362 58.1896 11.3199 58.5527 10.4758C58.9183 9.62685 59.4185 8.88374 60.0389 8.26327C60.6594 7.64281 61.4025 7.14499 62.2515 6.77704C63.0956 6.4139 64.0142 6.22872 64.9762 6.22872C65.9382 6.22872 66.8568 6.4139 67.701 6.77704C68.5499 7.14258 69.293 7.64281 69.9135 8.26327C70.5339 8.88374 71.0342 9.62685 71.3997 10.4758C71.7628 11.3199 71.948 12.2362 71.948 13.2005Z" fill="black"/>
+          <path d="M87.6913 18.3926L78.4444 4.62939L76.7441 4.66787V21.7884H78.5478V8.02993L87.6696 21.6056L87.7923 21.7884H89.4949V4.65825H87.6913V18.3926Z" fill="black"/>
+          <path d="M116.079 12.3876L114.944 12.0557C112.685 11.4232 111.589 10.4036 111.589 8.93657C111.589 8.46281 111.678 8.05397 111.856 7.71969C112.036 7.3806 112.277 7.09923 112.575 6.88038C112.883 6.65432 113.236 6.48357 113.621 6.37295C114.02 6.25751 114.443 6.19258 114.869 6.17815C115.396 6.16372 115.91 6.22865 116.396 6.37054C116.86 6.50762 117.245 6.71203 117.541 6.97898L117.841 7.25314L119.025 5.98095L118.731 5.69958C118.282 5.2691 117.695 4.93722 116.983 4.71837C116.293 4.50434 115.571 4.39612 114.835 4.39612C114.21 4.39612 113.59 4.4851 112.996 4.65825C112.39 4.83381 111.841 5.10797 111.36 5.47111C110.87 5.84146 110.47 6.31763 110.172 6.89C109.872 7.46718 109.718 8.15498 109.718 8.93176C109.718 10.1318 110.153 11.1515 111.012 11.9571C111.832 12.7291 113.003 13.3111 114.487 13.6838L115.444 14.0037C116.473 14.3668 117.209 14.7973 117.635 15.2831C118.039 15.7472 118.243 16.4158 118.243 17.272C118.243 17.7265 118.147 18.1281 117.957 18.4696C117.76 18.8207 117.498 19.1213 117.173 19.3666C116.836 19.6167 116.447 19.8163 116.011 19.9558C115.569 20.1001 115.107 20.1795 114.629 20.1915C113.955 20.2204 113.287 20.1266 112.647 19.9101C112.029 19.7033 111.514 19.3666 111.113 18.9097L110.807 18.561L109.619 19.8789L109.867 20.1554C110.439 20.7951 111.175 21.2761 112.053 21.5863C112.83 21.8605 113.643 21.9976 114.465 21.9976C114.552 21.9976 114.641 21.9952 114.727 21.9928C115.384 21.9759 116.04 21.8629 116.673 21.6585C117.315 21.4493 117.89 21.1438 118.378 20.747C118.868 20.3502 119.272 19.8596 119.575 19.2945C119.886 18.7173 120.044 18.0367 120.044 17.272C120.044 16.0142 119.715 14.9801 119.063 14.2009C118.423 13.4409 117.418 12.8301 116.079 12.3876Z" fill="black"/>
+          <path d="M128.605 4.65833L121.143 21.7884H123.088L125.51 16.2692H133.379L135.8 21.7884H137.748L130.284 4.65833H128.605ZM126.243 14.4631L129.411 7.21474L132.597 14.4631H126.243Z" fill="black"/>
+          <path d="M150.9 14.0877C150.581 13.7078 150.196 13.3735 149.758 13.0969C149.585 12.9887 149.407 12.8901 149.222 12.8011C149.66 12.5101 150.04 12.1542 150.355 11.7381C150.874 11.0552 151.139 10.2134 151.139 9.24186C151.139 8.53001 150.999 7.88069 150.725 7.31554C150.453 6.75279 150.071 6.267 149.59 5.87259C149.118 5.48541 148.561 5.18238 147.933 4.97316C147.31 4.76634 146.644 4.66052 145.951 4.66052H140.066V21.7906H146.721C147.433 21.7906 148.111 21.6776 148.736 21.4515C149.366 21.2255 149.924 20.896 150.398 20.4752C150.872 20.0519 151.252 19.5396 151.521 18.9553C151.793 18.3661 151.932 17.7095 151.932 17.0001C151.932 16.4421 151.841 15.9082 151.663 15.4152C151.482 14.9174 151.225 14.4725 150.9 14.0877ZM141.844 13.9146H146.579C147.074 13.9146 147.541 13.9891 147.969 14.1358C148.39 14.2801 148.76 14.4894 149.068 14.7563C149.371 15.0208 149.616 15.3431 149.792 15.7159C149.967 16.0862 150.056 16.5095 150.056 16.9736C150.056 17.4354 149.967 17.8538 149.794 18.2145C149.619 18.5801 149.373 18.8999 149.068 19.1645C148.76 19.4314 148.392 19.6406 147.969 19.7849C147.541 19.9316 147.072 20.0062 146.579 20.0062H141.844V13.9146ZM145.809 12.1109H141.865V6.43774H145.831C146.317 6.43774 146.783 6.50268 147.216 6.63014C147.637 6.75519 148.007 6.93796 148.315 7.17605C148.613 7.40932 148.854 7.70272 149.027 8.04903C149.2 8.39293 149.287 8.80176 149.287 9.2635C149.287 9.72524 149.203 10.1365 149.037 10.4828C148.871 10.8291 148.635 11.1249 148.334 11.363C148.029 11.6083 147.661 11.7935 147.24 11.9185C146.81 12.046 146.326 12.1109 145.809 12.1109Z" fill="black"/>
+          <path d="M163.107 13.8234C163.672 13.5781 164.169 13.2438 164.586 12.8278C165.002 12.4117 165.331 11.9139 165.562 11.3536C165.79 10.7932 165.906 10.1704 165.906 9.49698C165.906 8.77311 165.769 8.10214 165.497 7.49851C165.225 6.89488 164.845 6.37783 164.367 5.95938C163.895 5.54573 163.328 5.22107 162.683 4.99501C162.044 4.77135 161.344 4.65833 160.601 4.65833H154.877V21.7884H156.681V14.3357H159.932L164.708 21.7884H166.829L161.943 14.1865C162.351 14.1024 162.741 13.9821 163.107 13.8234ZM160.627 12.5777L156.683 12.556V6.462H160.627C161.122 6.462 161.589 6.53656 162.017 6.68325C162.44 6.82995 162.811 7.03437 163.119 7.2965C163.419 7.55142 163.662 7.87127 163.838 8.24884C164.013 8.62881 164.102 9.05448 164.102 9.51863C164.102 9.99961 164.016 10.4325 163.847 10.8029C163.679 11.1732 163.441 11.4882 163.14 11.7408C162.832 12.0005 162.462 12.2073 162.039 12.354C161.611 12.5031 161.137 12.5777 160.627 12.5777Z" fill="black"/>
+          <path d="M171.841 20.0305V13.7296H180.53V11.9716H171.841V6.41391H180.575V4.65833H170.037V21.7884H180.623V20.0305H171.841Z" fill="black"/>
+          <path d="M177.692 0H175.169L173.23 3.57369H175.087L177.692 0Z" fill="black"/>
+          <path d="M97.337 10.8269C97.1783 10.7571 97.0243 10.6994 96.868 10.6537C96.5097 10.5479 96.0912 10.495 95.6271 10.495C94.4535 10.495 93.5372 10.8173 92.9048 11.4546C92.217 12.1472 91.873 13.2101 91.8851 14.6098C91.8947 15.9613 92.2073 16.9834 92.811 17.6448C93.4266 18.3205 94.3741 18.662 95.6271 18.662C96.0672 18.662 96.5073 18.5899 96.9306 18.448C97.0869 18.3951 97.236 18.3374 97.3779 18.27V18.5466H98.7583V7.76062H97.337V10.8269ZM97.3538 16.7838C97.2961 16.8247 97.2312 16.8656 97.159 16.9016C97.0171 16.9762 96.8632 17.0411 96.7021 17.0964C96.5386 17.1518 96.3678 17.195 96.1947 17.2239C96.0239 17.2528 95.858 17.2672 95.7017 17.2672C94.8142 17.2672 94.201 17.058 93.8763 16.6491C93.53 16.209 93.3521 15.5212 93.3521 14.6074C93.3521 14.1504 93.3954 13.7392 93.4819 13.3905C93.5613 13.0682 93.6936 12.7917 93.8715 12.568C94.0471 12.3516 94.2707 12.188 94.5593 12.0726C94.8599 11.95 95.2423 11.8898 95.6992 11.8898C96.0504 11.8898 96.4015 11.9355 96.7382 12.0245C96.9811 12.0894 97.1951 12.1784 97.3779 12.2891L97.3538 16.7838Z" fill="black"/>
+          <path d="M106.823 11.6157C106.506 11.3031 106.107 11.0386 105.643 10.8293C105.169 10.6153 104.625 10.5071 104.029 10.5071C103.461 10.5071 102.923 10.6177 102.427 10.8341C101.937 11.0482 101.501 11.344 101.133 11.7095C100.765 12.0775 100.472 12.5152 100.263 13.0058C100.051 13.5012 99.9453 14.0327 99.9453 14.5906C99.9453 15.1798 100.061 15.7305 100.289 16.2283C100.515 16.7189 100.821 17.1518 101.198 17.515C101.576 17.8781 102.023 18.1643 102.528 18.3615C103.031 18.5611 103.565 18.6597 104.118 18.6597C104.349 18.6597 104.589 18.6477 104.83 18.6212C105.08 18.5948 105.335 18.5443 105.585 18.4721C105.84 18.3976 106.092 18.2917 106.333 18.1595C106.576 18.0248 106.811 17.8468 107.035 17.6352L107.336 17.349L106.362 16.339L106.066 16.6276C105.78 16.9065 105.481 17.0773 105.157 17.147C104.789 17.2264 104.44 17.2649 104.118 17.2649C103.745 17.2649 103.394 17.1975 103.069 17.0676C102.745 16.9354 102.456 16.7526 102.216 16.5241C101.975 16.2957 101.78 16.0239 101.638 15.7113C101.554 15.5285 101.494 15.3337 101.46 15.1293H106.054C106.547 15.1293 106.941 14.997 107.227 14.7373C107.514 14.4776 107.677 14.1529 107.716 13.7705C107.752 13.4266 107.692 13.0563 107.54 12.6667C107.388 12.2891 107.148 11.9356 106.823 11.6157ZM101.484 13.7513C101.528 13.595 101.585 13.4411 101.658 13.2944C101.799 13.0106 101.989 12.7629 102.22 12.5561C102.454 12.3468 102.725 12.1785 103.033 12.0534C103.331 11.9308 103.663 11.8707 104.017 11.8707C104.301 11.8707 104.558 11.9043 104.786 11.9693C105.015 12.0342 105.222 12.1232 105.395 12.2314C105.573 12.3396 105.722 12.4599 105.845 12.5897C105.965 12.7172 106.059 12.8495 106.126 12.9841C106.191 13.114 106.232 13.2415 106.251 13.3617C106.265 13.4603 106.261 13.5397 106.239 13.5998C106.222 13.6479 106.196 13.6791 106.155 13.708C106.111 13.7369 106.03 13.7513 105.929 13.7513H101.484Z" fill="black"/>
+          </svg>
+        </a>
+    </div>
+    <div class="mobile-cart-icon-nav">
+      <ul>  
+        <li>
+        <a id="cartopennavmov" href="{{shop.url}}/cart/" data-module="header-cart-icon" tabindex="0" class="btn-cart-trigger js-focus-return"><span class="btn-cart-trigger__icon">
+          <svg class="icon--bag" version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 14 18.8" style="enable-background:new 0 0 14 18.8;" xml:space="preserve">
+              <g id="Page-1">
+                <g id="_x30_1-Mobile---Homepage" transform="translate(-341.000000, -23.000000)">
+                  <g id="Navigation">
+                    <g id="Shopping-Bag" transform="translate(341.000000, 23.000000)">
+                      <path id="Fill-1" d="M2.3,8.1h9.5l1.2,9.7H1.1L2.3,8.1z M7,1c2.3,0,2.7,5.9,2.7,5.9H4.3C4.3,6.8,4.8,1,7,1L7,1z M12.7,8.1
+                        L12.7,8.1l-0.3-0.6V6.8h-1.7c0,0-0.5-6.8-3.8-6.8S3.2,6.8,3.2,6.8H1.6v0.7L1.3,8.1l0,0L0,18.8h14L12.7,8.1z" fill="#ffffff"></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </span> <span aria-hidden="true" class="btn-cart-trigger__count p1">{{ cart.item_count }}</span></a>
+        </li>
+      </ul>
+      </div>
+  </nav>
+</div>   
+
+
+            
+<script>
+$(document).ready(function(){
+$('.mobile_menu_mask').click(function(){
+$('body').css( 'overflow', "");
+$('body').css( 'height', "");
+$('body').find('.js-hamburgernav').removeClass("isactive");
+$('body').find('.navmm').removeClass("is-activenav");
+});
+$('.js-hamburgernav').click(function(){
+$('body').css( 'overflow', "hidden");
+$('body').css( 'height', "100vh");
+$('body').find('.js-hamburgernav').addClass("isactive");
+$('body').find('.navmm').addClass("is-activenav");
+});
+$('.mobile-nav-trigger_cross').click(function(){
+$('body').css( 'overflow', "");
+$('body').css( 'height', "");
+$('body').find('.js-hamburgernav').removeClass("isactive");
+ $('body').find('.navmm').removeClass("is-activenav");
+ });
+ $(".m-menu__checkbox").change(function() {
+  
+     if(this.checked) {
+       $('.mobile-nav-menu .m-menu.navmm').animate({
+          scrollTop: $(".mobile-nav-menu .m-menu.navmm").offset().top
+         }, 0);
+      
+        $('.mobile-nav-menu .is-activenav').addClass('second_menu_opened');
+     }
+     });
+
+ $(".m-menu__toggle").click(function(){
+ 	$('.mobile-nav-menu .is-activenav').removeClass('second_menu_opened');
+ });
+
+
+  
+  $('.search-icon-nav-m .btn-search').click(function(){
+    $('.fordesktoponly .search_input').focus();
+});
+$('.fordesktoponly .search_input').keyup(function(){
+const searchinput_new= $(this).val();
+$('#viewall').attr('href', '/search?q=' + searchinput_new);
+    if(searchinput_new.length >= 1){
+        $('body').addClass("navsearch_tint");
+    }
+    else{
+       $('body').removeClass("navsearch_tint"); 
+    }
+});
+  $(document).on("click", function(a) {
+  if ($(a.target).is("body") === false ) {
+  $("body").find(".fordesktoponly .search_input ").val('');
+  $("body").find(".fordesktoponly .all_product_search").hide();
+  $("body").removeClass("navsearch_tint");
+  }
+});
+  // for search page starts
+    $(document).on("click", function(a) {
+  if ($(a.target).is(".search_tint .for_desktopsearchpage:before") === false ) {
+  $("body").find(".for_desktopsearchpage .search_input ").val('');
+  $("body").find(".for_desktopsearchpage .all_product_search").hide();
+  $("body").removeClass("search_tint");
+  }
+});
+  // ends
+  $('.forcross_mobile').click(function(){
+    $('body').removeClass("searchfilter_open");
+  })
+    $('.search-icon-nav-m .btn-search').click(function(){
+    $('body').addClass("searchfilter_open");
+  })
+})
+$(function() {
+  var prevNowPlaying = null;
+  $(".btn-search").on("click", function(a) {
+    $(".fordesktoponly").parent().addClass("expand-search");
+    a.stopPropagation();
+    prevNowPlaying = setInterval(function () {
+      document.querySelector(".fordesktoponly .search_input").focus();
+    }, 500);
+  });
+
+  $(document).on("click", function(a) {
+    if ($(a.target).is(".search_input.expand-search") === false) {
+      $(".modal-search").removeClass("expand-search");
+      $(".modal-search").css('display', 'none');
+      clearInterval(prevNowPlaying);
+    }
+  });
+});
+$('.search_input').click(function(){
+    $(this).addClass('expand-search');
+});
+  
+  let divoffset = 0;
+  $(document).on("mouseenter",".open_wvt",function() {
+    console.log('enter');
+    $(".megamenu-panel").removeClass("active");
+    $(".megamenun-image-box span").removeClass("active");
+    $(this).parent(".menu_lst").find(".megamenu-panel").addClass("active");
+    $(this).parent(".menu_lst").find(".megamenun-image-box span").addClass("active");
+    divoffset = $(this).offset();
+  });
+  $(document).on("mouseleave",".megamenu-panel.active",function() {
+    $(this).parents(".menu_lst").find(".megamenu-panel").removeClass("active");
+    $(this).parents(".menu_lst").find(".megamenun-image-box span").removeClass("active");
+  });
+  $(document).on("mouseleave",".open_wvt",function(event) {
+    console.log(event.pageY);
+    console.log(divoffset.top);
+    console.log('leave');
+    if(event.pageY <  divoffset.top) {
+    $(this).parents(".menu_lst").find(".megamenu-panel").removeClass("active");
+    $(this).parents(".menu_lst").find(".megamenun-image-box span").removeClass("active");
+    }
+    else {
+        $(this).parent(".menu_lst").find(".megamenu-panel").addClass("active");
+        $(this).parent(".menu_lst").find(".megamenun-image-box span").addClass("active");
+    }
+  });
+</script>
+
+
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "headerSection",
+  "settings": [
+  {
+    "type" : "image_picker",
+    "id" : "imagesale",
+    "label" : "Select Sale Background Image"
+  },
+    {
+      "type": "text",
+      "id": "logo",
+      "label": "Logo",
+      "info": "CDN File link"
+    },
+{
+        "type": "range",
+        "id": "logo_width",
+        "min": 100,
+        "max": 250,
+        "step": 5,
+        "unit": "%",
+        "label": "Custom logo width",
+        "default": 100
+      },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "header",
+      "content": "Utility Navigation",
+      "info": "This navigation will appear only on mobile"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_utility",
+      "label": "Menu"
+    },
+  {
+      "type": "image_picker",
+      "id": "m_img",
+      "label": "Add image"
+     
+    },
+       {
+      "type": "url",
+      "id": "m_url",
+      "label": "Add url"
+     
+    },
+    {
+      "type": "text",
+      "id": "m_title",
+      "label": "Add Title"
+     
+    },
+   {
+      "type": "image_picker",
+      "id": "m_img2",
+      "label": "Add image"
+     
+    },
+       {
+      "type": "url",
+      "id": "m_url2",
+      "label": "Add url"
+     
+    },
+    {
+      "type": "text",
+      "id": "m_title2",
+      "label": "Add Title"
+     
+    },
+   {
+      "type": "image_picker",
+      "id": "m_img3",
+      "label": "Add image"
+     
+    },
+     {
+      "type": "url",
+      "id": "m_url3",
+      "label": "Add url"
+     
+    },
+    {
+      "type": "text",
+      "id": "m_title3",
+      "label": "Add Title"
+     
+    },
+     {
+  "type" : "url",
+  "id" : "announcement-collection",
+  "label" : "Select Collection for first bar"
+  },
+   {
+  "type" : "url",
+  "id" : "announcement-collection2",
+  "label" : "Select Collection for second bar"
+  },
+  {
+      "type": "textarea",
+      "id": "promo",
+      "label": "Promo bar",
+      "default":"New iPhone 13 Cases Have Landed! 🛍️ "
+    },
+    {
+      "type": "textarea",
+      "id": "promo2",
+      "label": "Promo bar",
+      "default":"New iPhone 13 Cases Have Landed! 🛍️ "
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Featured Image",
+      "type": "feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Link title",
+          "info": "We use this to match the feature with the specific link (e.g. 'shop')"
+        },
+        {
+          "type": "header",
+          "content": "First Block"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "text1",
+          "label": "Image Text"
+        },
+        {
+          "type": "url",
+          "id": "url1",
+          "label": "Block Url"
+        },   
+        {
+          "type": "header",
+          "content": "Second Block"
+        },        
+        {
+          "type": "image_picker",
+          "id": "image2",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "text2",
+          "label": "Image Text"
+        },
+        {
+          "type": "url",
+          "id": "url2",
+          "label": "Block Url"
+        },  
+        {
+          "type": "header",
+          "content": "Third Block"
+        },        
+        {
+          "type": "image_picker",
+          "id": "image3",
+          "label": "Background Image"
+        },        
+        {
+          "type": "text",
+          "id": "text3",
+          "label": "Image Text"
+        },
+        {
+          "type": "url",
+          "id": "url3",
+          "label": "Block Url"
+        },        
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge text",
+          "info": "Will appear on the right side of the link as a badge"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "Badge Color"
+        },
+        {
+          "type": "color",
+          "id": "badge_bgcolor",
+          "label": "Badge Background Color"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

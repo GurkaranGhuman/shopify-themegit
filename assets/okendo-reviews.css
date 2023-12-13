@@ -1,0 +1,43 @@
+.okeReviews-summary-average,
+.okeReviews-summary-count,
+.product__info-container [data-oke-reviews-product-listing-rating] {
+    display: inline-block;
+}
+
+.product__info-container [data-oke-reviews-product-listing-rating] {
+  vertical-align: top;
+}
+
+.product__info-container .okeReviews .okeReviews-reviewsSummary-ratingCount {
+    display: none;
+}
+
+.okeReviews-summary-count,
+.okeReviews-summary-average {
+    color: #000;
+  font-size:14px;
+}
+
+.okeReviews .okeReviews-reviewsAggregate-summary-total{
+  font-size:14px !important;
+}
+
+
+.okeReviews-summary-count .okeReviews-a11yText,
+.okeReviews-summary-average .okeReviews-a11yText {
+    display: none;
+}
+
+.okeReviews-summary-count:hover,
+.okeReviews-summary-average:hover {
+    cursor: pointer;
+}
+
+.okeReviews.okeReviews--theme .okeReviews-starRating.okeReviews-starRating--small {
+    height: 20px;
+}
+
+/* PDP > Rating Value Left Spacing */
+.okeReviews.okeReviews--theme .okeReviews-reviewsAggregate-summary-rating-value {
+    padding-left: 10px;
+}
